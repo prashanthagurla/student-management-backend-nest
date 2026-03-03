@@ -1,18 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpException,
-  HttpStatus,
-  Param,
-  Patch,
-  Post,
-  Put,
-} from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { response } from 'express';
-import { ApiResponseDTO } from 'src/dto/ApiResponseDTO';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { StudentDTO } from 'src/dto/StudentDTO';
 import { Student } from 'src/model/student.model';
 import { StudentService } from 'src/service/student.service';

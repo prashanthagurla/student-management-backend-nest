@@ -3,7 +3,7 @@ import { StudentModule } from './module/student.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CsvUploadModule } from './csv-upload/csv-upload.module';
-
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     StudentModule,
@@ -21,6 +21,7 @@ import { CsvUploadModule } from './csv-upload/csv-upload.module';
         synchronize: true,
       }),
     }),
+    AuthModule,
     CsvUploadModule,
   ],
   controllers: [],
