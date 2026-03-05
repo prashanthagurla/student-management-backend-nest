@@ -1,5 +1,6 @@
-import { Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { SignUpBean } from './dto/signUp.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -14,10 +15,11 @@ export class AuthController {
     return await this.authService.login(username, password);
   }
 
-  @Post('signIn')
-  async sign(): Promise<any> {
+  @Post('signUp')
+  async signUp(@Body() bean: SignUpBean): Promise<any> {
+    console.log('data', bean);
     console.log('controller called');
 
-    return await this.authService.sign();
+    return await this.authService.sign(bean);
   }
 }
