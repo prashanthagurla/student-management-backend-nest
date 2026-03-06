@@ -7,7 +7,12 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('Users')
+//TODO If you want, I can also show you one hidden NestJS + TypeORM mistake that creates
+// duplicate tables like user, users, Users, user_entity.
+//Almost 80% of developers face this once.
+
+//TODO👉 Why sometimes NestJS creates tables like users, users_users, users_entity automatically.
+@Entity('users')
 export class Users {
   @PrimaryGeneratedColumn({ name: 'user_id' })
   userId: number;

@@ -1,6 +1,7 @@
 import { Body, Controller, Param, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpBean } from './dto/signUp.dto';
+import { ApiResponse } from 'src/common/responses/api-response';
 
 @Controller('auth')
 export class AuthController {
@@ -20,6 +21,7 @@ export class AuthController {
     console.log('data', bean);
     console.log('controller called');
 
-    return await this.authService.sign(bean);
+    const response = await this.authService.sign(bean);
+    return ApiResponse.success(response, 'User registered successfully', 200);
   }
 }

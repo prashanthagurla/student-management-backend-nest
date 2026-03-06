@@ -37,9 +37,6 @@ export class AuthService {
       password: hashedPassword,
       role: UserRole.ADMIN,
     });
-    await this.userRepo.save(newUser);
-    return {
-      message: 'User registered successfully',
-    };
+    return await this.userRepo.save(newUser);
   }
 }
