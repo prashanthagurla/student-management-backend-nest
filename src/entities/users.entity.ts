@@ -32,6 +32,9 @@ export class Users {
   @Column({ type: 'enum', enum: UserRole })
   role: UserRole;
 
+  @Column({ name: 'active_flag', nullable: false })
+  activeFlag: boolean;
+
   @Column({ name: 'created_by', nullable: true })
   createdBy: number;
 

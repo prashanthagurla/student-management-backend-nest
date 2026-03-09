@@ -8,12 +8,9 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  async login(
-    @Param() username: string,
-    @Param() password: string,
-  ): Promise<any> {
+  async login(@Body() body: any): Promise<any> {
     console.log('controller called');
-    return await this.authService.login(username, password);
+    return await this.authService.login(body);
   }
 
   @Post('signUp')
