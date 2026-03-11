@@ -10,7 +10,9 @@ export class AuthController {
   @Post('login')
   async login(@Body() body: any): Promise<any> {
     console.log('controller called');
-    return await this.authService.login(body);
+    const response = await this.authService.login(body);
+
+    return ApiResponse.success(response, 'Login Successful', 200);
   }
 
   @Post('signUp')

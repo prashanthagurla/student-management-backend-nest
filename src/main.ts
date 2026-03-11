@@ -5,7 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 3200;
   //TODO If you want, I can also explain 5 powerful NestJS features most developers don't know (Interceptors, Pipes, Guards, Middleware, Filters).
   //Global validation pipe for clss-validator DTOs
   app.useGlobalPipes(

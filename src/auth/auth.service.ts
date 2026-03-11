@@ -1,7 +1,9 @@
 import {
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { SignUpBean } from './dto/signUp.dto';
 import { Repository } from 'typeorm';
@@ -9,13 +11,13 @@ import { Users } from 'src/entities/users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserRole } from 'src/enums/user-role';
 import * as bcrypt from 'bcrypt';
-import { JwtService } from './jwt.service';
+import { JwtTokenService } from './jwt.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(Users) private readonly userRepo: Repository<Users>,
-    private jwtService: JwtService,
+    private jwtTokenService: JwtTokenService,
   ) {}
   async login(body: any): Promise<any> {
     console.log('LogIn SERVICE ');
@@ -24,20 +26,29 @@ export class AuthService {
     const user = await this.userRepo.findOne({
       where: { email: body.email },
     });
+    // console.log('user', user);
     if (!user) {
       throw new NotFoundException('Invalid credentials');
     }
     if (!user.activeFlag) {
-      throw new Error('User is not active');
+      throw new ForbiddenException('User is not active');
     }
     const isMatch = await bcrypt.compare(body.password, user.password);
+    if (!isMatch) {
+      throw new UnauthorizedException('Invalid creadentials');
+    }
 
-    // if (body.password !== user.password) {
-    //   throw Error('Invalid Password');
-    // }
-    this.jwtService.generateToken();
+    const payload = {
+      userId: user.userId,
+      email: user.email,
+      role: user.role,
+    };
+    // console.log('payload', payload);
+    const token = this.jwtTokenService.generateToken(payload);
 
-    return 'hello fdgfdgdfg';
+    return {
+      token,
+    };
   }
   async sign(signUpBean: SignUpBean): Promise<any> {
     console.log('SignIn SERVICE');
@@ -55,6 +66,7 @@ export class AuthService {
       rollNumber: signUpBean.rollNumber,
       password: hashedPassword,
       role: UserRole.ADMIN,
+      activeFlag: true,
     });
     return await this.userRepo.save(newUser);
   }
